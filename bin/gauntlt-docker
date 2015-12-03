@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# usage:
+# gauntlt-docker --help
+# gauntlt-docker ./path/to/attacks --tags @your_tag
+
+docker run -t --rm=true -v $(pwd):/working -w /working gauntlt $@
