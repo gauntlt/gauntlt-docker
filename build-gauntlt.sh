@@ -1,13 +1,11 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
-set -e
+## Load variables file.  Defines which version we're using when downloading Arachni.
+. arachni_vars
 
-function build() {
-  local TARGET=$1
-  if [ ! -d $TARGET ]; then
-    echo "** ERROR: $TARGET isn't a valid directory"
-  fi
-  docker build -t $TARGET .
-}
-
-build "gauntlt"
+docker build \
+  --pull=true \
+  -t gauntlt \
+  --build-arg=ARACHNI_RELEASE=${ARACHNI_RELEASE} \
+  --build-arg=ARACHNI_VERSION=${ARACHNI_VERSION} \
+  $( readlink -f $( pwd ) )
