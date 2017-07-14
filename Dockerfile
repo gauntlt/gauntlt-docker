@@ -21,6 +21,6 @@ RUN \
 RUN gem install gauntlt --no-rdoc --no-ri
 
 # Install Attack tools
-RUN gem install arachni --no-rdoc --no-ri
+RUN gem install arachni -v 1.0.6 --no-rdoc --no-ri
 
 ENTRYPOINT [ "/usr/local/bin/gauntlt" ]
