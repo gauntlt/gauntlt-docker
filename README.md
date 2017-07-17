@@ -16,7 +16,7 @@ the docker for gauntlt
   $ make build
   ```
 
-2. Copy binary stub to somewhere in your $PATH (like `/usr/local/bin`)`
+2. Copy binary stub to somewhere in your $PATH (like `/usr/local/bin`)
   ```
   $ make install
   ```
