@@ -8,14 +8,19 @@ clean:
 	@echo "Removing unused docker containers..."
 	@./docker-clean.sh
 
-install:
+interactive:
+	@docker run -it --entrypoint /bin/bash gauntlt
+
+install-stub:
 	@echo "installing gauntlt-docker to /usr/local/bin"
 	@cp ./bin/gauntlt-docker /usr/local/bin
 
 help:
 	@echo "the help menu"
-	@echo "  make clean"
 	@echo "  make build"
+	@echo "  make clean"
 	@echo "  make help"
+	@echo "  make install-stub"
+	@echo "  make interactive"
 
 .PHONY: build clean
