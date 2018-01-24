@@ -7,6 +7,7 @@ RUN \
   apt-get install -y build-essential \
     ca-certificates \
     curl \
+    git \
     libcurl3 \
     libcurl4-openssl-dev \
     wget \
@@ -26,21 +27,19 @@ RUN gem install gauntlt --no-rdoc --no-ri
 # Install arachni
 RUN gem install arachni -v 1.5.1 --no-rdoc --no-ri
 
-# Install nikto
+# Nikto
+WORKDIR /opt
+
 RUN apt-get update \
         && apt-get install -y libtimedate-perl libnet-ssleay-perl \
         && rm -rf /var/lib/apt/lists/*
 
-ADD https://cirt.net/nikto/nikto-2.1.5.tar.gz /root/
+RUN git clone --depth=1 https://github.com/sullo/nikto.git && \
+    cd nikto/program && \
+    echo "EXECDIR=/opt/nikto/program" >> nikto.conf && \
+    ln -s /opt/nikto/program/nikto.conf /etc/nikto.conf && \
+    chmod +x nikto.pl && \
+    ln -s /opt/nikto/program/nikto.pl /usr/local/bin/nikto
 
-WORKDIR /opt
-
-RUN tar xzf /root/nikto-2.1.5.tar.gz \
-        && rm /root/nikto-2.1.5.tar.gz \
-        && echo "EXECDIR=/opt/nikto-2.1.5" >> nikto-2.1.5/nikto.conf \
-        && ln -s /opt/nikto-2.1.5/nikto.conf /etc/nikto.conf \
-        && chmod +x nikto-2.1.5/nikto.pl \
-        && ln -s /opt/nikto-2.1.5/nikto.pl /usr/local/bin/nikto \
-        && nikto -update
 
 ENTRYPOINT [ "/usr/local/bin/gauntlt" ]
