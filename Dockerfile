@@ -1,10 +1,13 @@
 FROM ubuntu:16.04
 MAINTAINER james@gauntlt.org
 
-# Install Ruby.
+ARG ARACHNI_VERSION=arachni-1.5.1-0.5.12
+
+# Install Ruby and other OS stuff
 RUN \
   apt-get update && \
   apt-get install -y build-essential \
+    bzip2 \
     ca-certificates \
     curl \
     git \
@@ -12,6 +15,7 @@ RUN \
     libcurl4-openssl-dev \
     wget \
     zlib1g-dev \
+    libfontconfig \
     libxml2-dev \
     libxslt1-dev \
     ruby \
@@ -24,8 +28,11 @@ RUN gem install gauntlt --no-rdoc --no-ri
 
 # Install Attack tools
 
-# Install arachni
-RUN gem install arachni -v 1.5.1 --no-rdoc --no-ri
+# arachni
+RUN wget https://github.com/Arachni/arachni/releases/download/v1.5.1/${ARACHNI_VERSION}-linux-x86_64.tar.gz && \
+    tar xzvf ${ARACHNI_VERSION}-linux-x86_64.tar.gz && \
+    mv ${ARACHNI_VERSION} /usr/local && \
+    ln -s /usr/local/${ARACHNI_VERSION}/bin/* /usr/local/bin/
 
 # Nikto
 WORKDIR /opt
