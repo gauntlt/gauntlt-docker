@@ -8,6 +8,10 @@ clean:
 	@echo "Removing unused docker containers..."
 	@./docker-clean.sh
 
+clean-all: clean
+	@echo "Removing gauntlt image..."
+	@docker rmi gauntlt
+
 interactive:
 	@docker run -it --entrypoint /bin/bash gauntlt
 
@@ -19,6 +23,7 @@ help:
 	@echo "the help menu"
 	@echo "  make build"
 	@echo "  make clean"
+	@echo "  make clean-all"
 	@echo "  make help"
 	@echo "  make install-stub"
 	@echo "  make interactive"
