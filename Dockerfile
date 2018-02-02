@@ -10,6 +10,7 @@ RUN \
     bzip2 \
     ca-certificates \
     curl \
+    gcc \
     git \
     libcurl3 \
     libcurl4-openssl-dev \
@@ -18,6 +19,10 @@ RUN \
     libfontconfig \
     libxml2-dev \
     libxslt1-dev \
+    make \
+    python-pip \
+    python2.7 \
+    python2.7-dev \
     ruby \
     ruby-dev \
     ruby-bundler && \
@@ -46,5 +51,10 @@ RUN git clone --depth=1 https://github.com/sullo/nikto.git && \
     ln -s /opt/nikto/program/nikto.conf /etc/nikto.conf && \
     chmod +x nikto.pl && \
     ln -s /opt/nikto/program/nikto.pl /usr/local/bin/nikto
+
+# sqlmap
+WORKDIR /opt
+ENV SQLMAP_PATH /opt/sqlmap/sqlmap.py
+RUN git clone --depth=1 https://github.com/sqlmapproject/sqlmap.git
 
 ENTRYPOINT [ "/usr/local/bin/gauntlt" ]
