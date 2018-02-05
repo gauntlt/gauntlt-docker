@@ -4,28 +4,27 @@ MAINTAINER james@gauntlt.org
 ARG ARACHNI_VERSION=arachni-1.5.1-0.5.12
 
 # Install Ruby and other OS stuff
-RUN \
-  apt-get update && \
-  apt-get install -y build-essential \
-    bzip2 \
-    ca-certificates \
-    curl \
-    gcc \
-    git \
-    libcurl3 \
-    libcurl4-openssl-dev \
-    wget \
-    zlib1g-dev \
-    libfontconfig \
-    libxml2-dev \
-    libxslt1-dev \
-    make \
-    python-pip \
-    python2.7 \
-    python2.7-dev \
-    ruby \
-    ruby-dev \
-    ruby-bundler && \
+RUN apt-get update && \
+    apt-get install -y build-essential \
+      bzip2 \
+      ca-certificates \
+      curl \
+      gcc \
+      git \
+      libcurl3 \
+      libcurl4-openssl-dev \
+      wget \
+      zlib1g-dev \
+      libfontconfig \
+      libxml2-dev \
+      libxslt1-dev \
+      make \
+      python-pip \
+      python2.7 \
+      python2.7-dev \
+      ruby \
+      ruby-dev \
+      ruby-bundler && \
     rm -rf /var/lib/apt/lists/*
 
 # Install Gauntlt
@@ -41,9 +40,10 @@ RUN wget https://github.com/Arachni/arachni/releases/download/v1.5.1/${ARACHNI_V
     ln -s /usr/local/${ARACHNI_VERSION}/bin/* /usr/local/bin/
 
 # Nikto
-RUN apt-get update \
-        && apt-get install -y libtimedate-perl libnet-ssleay-perl \
-        && rm -rf /var/lib/apt/lists/*
+RUN apt-get update && \
+    apt-get install -y libtimedate-perl \
+      libnet-ssleay-perl && \
+    rm -rf /var/lib/apt/lists/*
 
 RUN git clone --depth=1 https://github.com/sullo/nikto.git && \
     cd nikto/program && \
@@ -67,5 +67,10 @@ RUN wget https://downloads.sourceforge.net/project/dirb/dirb/2.22/dirb222.tar.gz
     ln -s /opt/dirb222/dirb /usr/local/bin/dirb
 
 ENV DIRB_WORDLISTS /opt/dirb222/wordlists
+
+# nmap
+RUN apt-get update && \
+    apt-get install -y nmap && \
+    rm -rf /var/lib/apt/lists/*
 
 ENTRYPOINT [ "/usr/local/bin/gauntlt" ]
