@@ -36,7 +36,7 @@ WORKDIR /opt
 
 # arachni
 RUN wget https://github.com/Arachni/arachni/releases/download/v1.5.1/${ARACHNI_VERSION}-linux-x86_64.tar.gz && \
-    tar xzvf ${ARACHNI_VERSION}-linux-x86_64.tar.gz && \
+    tar xzvf ${ARACHNI_VERSION}-linux-x86_64.tar.gz > /dev/null && \
     mv ${ARACHNI_VERSION} /usr/local && \
     ln -s /usr/local/${ARACHNI_VERSION}/bin/* /usr/local/bin/
 
@@ -59,8 +59,9 @@ ENV SQLMAP_PATH /opt/sqlmap/sqlmap.py
 RUN git clone --depth=1 https://github.com/sqlmapproject/sqlmap.git
 
 # dirb
-RUN wget https://downloads.sourceforge.net/project/dirb/dirb/2.22/dirb222.tar.gz && \
-    tar xvfz dirb222.tar.gz && \
+COPY vendor/dirb222.tar.gz dirb222.tar.gz
+
+RUN tar xvfz dirb222.tar.gz > /dev/null && \
     cd dirb222 && \
     chmod 755 ./configure && \
     ./configure && \
