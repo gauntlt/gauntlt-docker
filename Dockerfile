@@ -77,5 +77,6 @@ RUN apt-get update && \
 
 # sslyze
 RUN pip install sslyze==1.3.4
+ENV SSLYZE_PATH /usr/local/bin/sslyze
 
 ENTRYPOINT [ "/usr/local/bin/gauntlt" ]
