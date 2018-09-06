@@ -75,4 +75,8 @@ RUN apt-get update && \
     apt-get install -y nmap && \
     rm -rf /var/lib/apt/lists/*
 
+# sslyze
+RUN pip install sslyze==1.3.4
+ENV SSLYZE_PATH /usr/local/bin/sslyze
+
 ENTRYPOINT [ "/usr/local/bin/gauntlt" ]
