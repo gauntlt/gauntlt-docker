@@ -28,6 +28,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # Install Gauntlt
+RUN gem install rake
 RUN gem install ffi -v 1.9.18
 RUN gem install gauntlt --no-rdoc --no-ri
 
