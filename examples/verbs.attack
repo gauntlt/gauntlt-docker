@@ -1,0 +1,22 @@
+@slow
+Feature: Evaluate responses to various HTTP methods.
+
+Background:
+  Given "curl" is installed
+  And the following profile:
+    | name     | value           |
+    | hostname | scanme.nmap.org |
+
+Scenario Outline: Verify server responds correctly to various HTTP methods
+  When I launch a "curl" attack with:
+    """
+    curl -i -X <method> <hostname>
+    """
+  Then the output should contain "<response>"
+  Examples:
+    | method | response                     |
+    | delete | HTTP/1.1 501 Not Implemented |
+    | patch  | HTTP/1.1 501 Not Implemented |
+    | trace  | HTTP/1.1 501 Not Implemented |
+    | track  | HTTP/1.1 501 Not Implemented |
+    | bogus  | HTTP/1.1 501 Not Implemented |

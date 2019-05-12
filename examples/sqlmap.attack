@@ -1,0 +1,14 @@
+@slow
+
+Feature: Run sqlmap against a target
+
+Scenario: Identify SQL injection vulnerabilities
+  Given "sqlmap" is installed
+  And the following profile:
+      | name       | value                           |
+      | target_url | http://scanme.nmap.org/?id=test |
+  When I launch a "sqlmap" attack with:
+  """
+  python <sqlmap_path> -u <target_url> --dbms sqlite --batch -v 0 --tables
+  """
+  Then the output should contain "all tested parameters do not appear to be injectable"
