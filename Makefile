@@ -19,6 +19,9 @@ install-stub:
 	@echo "installing gauntlt-docker to /usr/local/bin"
 	@cp ./bin/gauntlt-docker /usr/local/bin
 
+runexamples:
+	@echo "Running all examples"
+	@docker run --rm -it -v  ${CURDIR}/examples:/attacks gauntlt
 help:
 	@echo "the help menu"
 	@echo "  make build"
@@ -27,5 +30,6 @@ help:
 	@echo "  make help"
 	@echo "  make install-stub"
 	@echo "  make interactive"
+	@echo "  make runexamples"
 
 .PHONY: build clean
