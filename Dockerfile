@@ -47,7 +47,7 @@ RUN apt update && \
           build-essential \
           libcurl4-openssl-dev \
           zlib1g-dev && \
-    pip install sslyze==1.3.4 && \
+    pip install sslyze==1.4.3 && \
     gem install zapr && \
     rm -rf /var/lib/apt/lists/* && \
     apt autoremove -y && \
@@ -127,8 +127,12 @@ RUN curl -s https://raw.githubusercontent.com/zaproxy/zap-admin/master/ZapVersio
 	rm -Rf webswing/demo/ && \
 	# Accept ZAP license
 	touch AcceptedLicense && \
-    pip install zapcli python-owasp-zap-v2.4
-    
+    pip install zapcli python-owasp-zap-v2.4 && \
+    wget -q -O /opt/zap/zap-api-scan.py https://raw.githubusercontent.com/zaproxy/zaproxy/develop/docker/zap-api-scan.py && \
+    wget -q -O /opt/zap/zap_common.py https://raw.githubusercontent.com/zaproxy/zaproxy/develop/docker/zap_common.py && \
+    chmod 755 /opt/zap/zap-api-scan.py && \
+    ln -s /opt/zap/zap-api-scan.py /usr/local/bin/zap-api-scan
+
 
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
 ENV PATH $JAVA_HOME/bin:/opt/zap/:$PATH
