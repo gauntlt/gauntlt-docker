@@ -23,20 +23,25 @@ Feel free to fork this and customize for your needs. This container is great to 
   $ cd /path/to/cloned/repo/gauntlt-docker
   $ make build
   ```
+3. Build the docker development container (optional)
 
-3. Check out what `make` can do for you
+  ```
+  $ cd /path/to/cloned/repo/gauntlt-docker
+  $ make build-dev
+  ```
+4. Check out what `make` can do for you
   ```
   $ make help
   ```
 
-4. Copy binary stub to your $PATH (like `/usr/local/bin`)
+5. Copy binary stub to your $PATH (like `/usr/local/bin`)
   ```
   $ make install-stub
   ```
 
-5. Test it out with a `gauntlt-docker --help`
+6. Test it out with a `gauntlt-docker --help`
 
-6. You can get interactive access to the container to test attack tools installed
+7. You can get interactive access to the container to test attack tools installed
   ```
   $ make interactive
   ```

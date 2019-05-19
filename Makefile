@@ -4,6 +4,10 @@ build:
 	@echo "Building docker container..."
 	@./build-gauntlt.sh
 
+build-dev:
+	@echo "Building docker development container..."
+	@docker build -f Dockerfile-dev -t gauntlt-dev .
+
 clean:
 	@echo "Removing unused docker containers..."
 	@./docker-clean.sh
@@ -25,6 +29,7 @@ runexamples:
 help:
 	@echo "the help menu"
 	@echo "  make build"
+	@echo "  make build-dev"
 	@echo "  make clean"
 	@echo "  make clean-all"
 	@echo "  make help"
