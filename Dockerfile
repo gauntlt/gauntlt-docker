@@ -137,6 +137,8 @@ RUN curl -s https://raw.githubusercontent.com/zaproxy/zap-admin/master/ZapVersio
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
 ENV PATH $JAVA_HOME/bin:/opt/zap/:$PATH
 ENV ZAP_PATH /opt/zap/zap.sh
+ENV ZAPCLI_PATH /usr/local/bin/zap-cli
+ENV ZAPAPISCAN_PATH /usr/local/bin/zap-api-scan
 
 VOLUME [ "/attacks" ]
 

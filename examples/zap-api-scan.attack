@@ -1,0 +1,7 @@
+@reallyslow
+
+Feature: Check an aplication against its API documentation
+
+Scenario: Using zap-apiscan, load its API documentation and check all it's endpoints with zap
+  When I launch a "zap-api-scan" attack on the url "http://petstore.swagger.io/api" whose documentation is available in "https://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v3.0/petstore-expanded.yaml"
+  Then the output should contain "FAIL-NEW: 0"
