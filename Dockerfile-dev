@@ -176,7 +176,7 @@ ENV ZAP_PATH /usr/local/bin/zap.sh
 ENV ZAPCLI_PATH /usr/local/bin/zap-cli
 ENV ZAPAPISCAN_PATH /usr/local/bin/zap-api-scan
 
-VOLUME [ "/attacks" ]
+VOLUME [ "/attacks","/output" ]
 
 ENTRYPOINT [ "/usr/local/bin/gauntlt" ]
 

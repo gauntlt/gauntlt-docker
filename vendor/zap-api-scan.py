@@ -230,11 +230,11 @@ def main(argv):
         sys.exit(3)
 
     if running_in_docker():
-        base_dir = '/zap/wrk/'
+        base_dir = '/output/'
         if config_file or generate or report_html or report_xml or report_json or progress_file or context_file or target_file:
             # Check directory has been mounted
             if not os.path.exists(base_dir):
-                logging.warning('A file based option has been specified but the directory \'/zap/wrk\' is not mounted ')
+                logging.warning('A file based option has been specified but the directory \'/output\' is not mounted ')
                 usage()
                 sys.exit(3)
 
@@ -347,7 +347,7 @@ def main(argv):
 
         if context_file:
             # handle the context file, cant use base_dir as it might not have been set up
-            zap_import_context(zap, '/zap/wrk/' + os.path.basename(context_file))
+            zap_import_context(zap, '/output/' + os.path.basename(context_file))
 
         # Enable scripts
         zap.script.load('Alert_on_HTTP_Response_Code_Errors.js', 'httpsender', 'Oracle Nashorn', '/opt/zap/scripts/scripts/httpsender/Alert_on_HTTP_Response_Code_Errors.js')
