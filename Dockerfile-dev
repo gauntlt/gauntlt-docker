@@ -2,7 +2,8 @@ FROM ubuntu:19.04
 MAINTAINER james@gauntlt.org
 
 ARG ARACHNI_VERSION=arachni-1.5.1-0.5.12
-ARG GAUNTLT_BRANCH=ZapSupport
+
+ARG GAUNTLT_BRANCH=master
 # Will use this repo for development until https://github.com/gauntlt/gauntlt/pull/120 is merged
 ARG GAUNTLT_REPO=https://github.com/millaguie/gauntlt.git
 WORKDIR /opt
@@ -143,6 +144,7 @@ RUN mkdir /opt/zap && \
 	rm *.zip && \
     mv ZAP_D*/* . && \
     rmdir ZAP_D* && \
+
 	# Setup Webswing
 	curl -s -L https://bitbucket.org/meszarv/webswing/downloads/webswing-2.5.10.zip > webswing.zip && \
 	unzip webswing.zip && \
@@ -178,6 +180,7 @@ ENV ZAPCLI_PATH /usr/local/bin/zap-cli
 ENV ZAPAPISCAN_PATH /usr/local/bin/zap-api-scan
 
 VOLUME [ "/attacks","/output" ]
+
 
 ENTRYPOINT [ "/usr/local/bin/gauntlt" ]
 
