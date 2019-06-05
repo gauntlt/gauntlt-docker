@@ -1,4 +1,5 @@
 @slow
+
 Feature: Test for the Heartbleed vulnerability
 
 Scenario: Test my website for the Heartbleed vulnerability (see heartbleed.com for more info)
