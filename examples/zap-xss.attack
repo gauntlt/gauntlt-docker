@@ -1,7 +1,7 @@
 @reallyslow
+
 Feature: Look for common vulnerabilities using owasp-zap
 
-# Adapted from https://github.com/devopstf/gauntlt-zap/blob/master/attacks/xss/zap-xss.attack
 Background:
   Given the following profile:
   | name  | value                   |

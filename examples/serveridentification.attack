@@ -1,0 +1,36 @@
+Feature: Evaluate if server headers are leaking software information
+
+Scenario: Verify server does not send any software related information
+  When I launch a "generic" attack with:
+  """
+  curl -v -o /dev/null https://www.google.com
+  """
+  Then the output should not contain "Apache"
+  And the output should not contain "Microsoft-IIS"
+  And the output should not contain "nginx"
+  And the output should not contain "cPanel"
+  And the output should not contain "ebian"
+  And the output should not contain "buntu"
+  And the output should not contain "openresty"
+  And the output should not contain "Werkzeug"
+  And the output should not contain "ython"
+  And the output should not contain "PHP"
+  And the output should not contain "Java"
+  And the output should not contain "java"
+  And the output should not contain "Jetty"
+  And the output should not contain "micro_httpd"
+  And the output should not contain "Linux"
+  And the output should not contain "linux"
+  And the output should not contain "LINUX"
+  And the output should not contain "Microsoft"
+  And the output should not contain "lighttpd"
+  And the output should not contain "MicroStrategy"
+  And the output should not contain "Oracle"
+  And the output should not contain "IBM"
+  And the output should not contain "RedHat"
+  And the output should not contain "Servlet"
+  And the output should not contain "ASP"
+  And the output should not contain "Passenger"
+  And the output should not contain "Unicorn"
+  And the output should not contain "unicorn"
+  

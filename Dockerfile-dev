@@ -3,6 +3,7 @@ MAINTAINER james@gauntlt.org
 
 ARG ARACHNI_VERSION=arachni-1.5.1-0.5.12
 ARG GAUNTLT_BRANCH=ZapSupport
+# Will use this repo for development until https://github.com/gauntlt/gauntlt/pull/120 is merged
 ARG GAUNTLT_REPO=https://github.com/millaguie/gauntlt.git
 WORKDIR /opt
 
@@ -172,7 +173,7 @@ RUN chmod 755 /usr/local/bin/zap*.sh /opt/zap/zap-api-scan.py && \
 
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
 ENV PATH $JAVA_HOME/bin:/opt/zap/:$PATH
-ENV ZAP_PATH /usr/local/bin/zap.sh
+ENV ZAP_PATH /opt/zap/zap.sh
 ENV ZAPCLI_PATH /usr/local/bin/zap-cli
 ENV ZAPAPISCAN_PATH /usr/local/bin/zap-api-scan
 
