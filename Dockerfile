@@ -177,7 +177,6 @@ ENV ZAPAPISCAN_PATH /usr/local/bin/zap-api-scan
 
 VOLUME [ "/attacks","/output" ]
 
-
 ENTRYPOINT [ "/usr/local/bin/gauntlt" ]
 
 CMD ["/attacks/*"]

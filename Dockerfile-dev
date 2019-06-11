@@ -4,7 +4,8 @@ MAINTAINER james@gauntlt.org
 ARG ARACHNI_VERSION=arachni-1.5.1-0.5.12
 
 ARG GAUNTLT_BRANCH=master
-ARG GAUNTLT_REPO=https://github.com/gauntlt/gauntlt.git
+# Will use this repo for development until https://github.com/gauntlt/gauntlt/pull/120 is merged
+ARG GAUNTLT_REPO=https://github.com/millaguie/gauntlt.git
 WORKDIR /opt
 
 ENV DEBIAN_FRONTEND noninteractive
