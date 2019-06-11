@@ -1,0 +1,18 @@
+Feature: Run garmr scan on a URL
+
+Scenario: Use Garmr to scan a website for the Mozilla opioniated security requirements
+  Given "garmr" is installed
+  And the following profile:
+    | name       | value                      |
+    | target_url | http://scanme.nmap.org     |
+  When I launch a "garmr" attack with:
+    """
+    garmr -u <target_url> -o my_garmr_output.xml
+    """
+  Then it should pass with:
+    """
+    [Garmr.corechecks.Http200Check] Pass The request returned an HTTP 200 response.
+    """
+  And the file "my_garmr_output.xml" should not contain XML:
+    | css                                      |
+    | testcase[name="Http200Check"] failure    |
