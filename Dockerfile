@@ -4,6 +4,8 @@ MAINTAINER james@gauntlt.org
 ARG ARACHNI_VERSION=arachni-1.5.1-0.5.12
 WORKDIR /opt
 
+ENV DEBIAN_FRONTEND noninteractive
+
 # Install Ruby, Gauntlt and everything needing build-essential
 RUN apt update && \
     apt install -y build-essential \
@@ -16,20 +18,27 @@ RUN apt update && \
       libcurl4-openssl-dev \
       wget \
       zlib1g-dev \
+      libyaml-dev \
       libfontconfig \
       libxml2-dev \
+      libxml2 \
       libxslt1-dev \
+      libxslt-dev \
+      libsqlite3-dev \
       make \
       python-pip \
       xmlstarlet \
       python2.7 \
       python2.7-dev \
+      python-pip \
+      python-setuptools \
       ruby \
       ruby-dev \
       openjdk-8-jre \
+      xvfb \
+      x11vnc \
       ruby-bundler && \
     gem install rake && \
-    gem install ffi -v 1.9.24 && \
     wget -O dirb.tar.gz https://downloads.sourceforge.net/project/dirb/dirb/2.22/dirb222.tar.gz && \
     tar xvf dirb.tar.gz && \
     rm dirb.tar.gz && \
@@ -38,7 +47,16 @@ RUN apt update && \
     ./configure && \
     make && \
     ln -s /opt/dirb222/dirb /usr/local/bin/dirb && \
-    gem install gauntlt --no-rdoc --no-ri && \
+    cd /usr/src && \
+    git clone --single-branch --branch ${GAUNTLT_BRANCH} ${GAUNTLT_REPO} && \
+    cd gauntlt && \
+    gem install bundler && \
+    bundler update && \
+    git submodule update --init --recursive --force && \
+    rake build && \
+    rake install && \
+    cd && \
+    rm -rf /usr/src/* && \
     apt remove -y \
           ruby-dev \
           python2.7-dev \
@@ -114,10 +132,15 @@ RUN pip install beautifulsoup && \
     cd Garmr && \
     python setup.py install
 
-# owasp-zap adapted from https://github.com/zaproxy/zaproxy/blob/develop/docker/Dockerfile-stable
-RUN curl -s https://raw.githubusercontent.com/zaproxy/zap-admin/master/ZapVersions.xml | xmlstarlet sel -t -v //url |grep -i Linux | wget -nv --content-disposition -i - -O - | tar zxv && \
-    mv ZAP* zap &&\
-	cd zap &&  \
+# owasp-zap adapted from https://github.com/zaproxy/zaproxy/blob/develop/docker/Dockerfile-weekly
+RUN mkdir /opt/zap && \
+    cd /opt/zap && \
+    wget -q https://github.com/zaproxy/zaproxy/releases/download/w2019-05-15/ZAP_WEEKLY_D-2019-05-15.zip && \
+	unzip *.zip && \
+	rm *.zip && \
+    mv ZAP_D*/* . && \
+    rmdir ZAP_D* && \
+
 	# Setup Webswing
 	curl -s -L https://bitbucket.org/meszarv/webswing/downloads/webswing-2.5.10.zip > webswing.zip && \
 	unzip webswing.zip && \
@@ -128,11 +151,23 @@ RUN curl -s https://raw.githubusercontent.com/zaproxy/zap-admin/master/ZapVersio
 	# Accept ZAP license
 	touch AcceptedLicense && \
     pip install zapcli python-owasp-zap-v2.4 && \
-    wget -q -O /opt/zap/zap-api-scan.py https://raw.githubusercontent.com/zaproxy/zaproxy/develop/docker/zap-api-scan.py && \
-    wget -q -O /opt/zap/zap_common.py https://raw.githubusercontent.com/zaproxy/zaproxy/develop/docker/zap_common.py && \
-    chmod 755 /opt/zap/zap-api-scan.py && \
-    ln -s /opt/zap/zap-api-scan.py /usr/local/bin/zap-api-scan
+    mkdir -p /opt/zap/scripts/scripts/httpsender/
 
+COPY vendor/webswing.config /opt/zap/webswing/
+COPY vendor/zap-x.sh /usr/local/bin/
+COPY vendor/zap-api-scan.py /opt/zap/
+COPY vendor/zap_common.py /opt/zap/
+
+COPY vendor/policies /root/.ZAP_D/policies/
+COPY vendor/scripts /root/.ZAP_D/scripts/
+COPY vendor/.xinitrc /root/
+ENV ZAP_PORT 8080
+
+RUN chmod a+x /root/.xinitrc && \
+    mkdir /root/.vnc
+
+RUN chmod 755 /usr/local/bin/zap*.sh /opt/zap/zap-api-scan.py && \
+    ln -s /opt/zap/zap-api-scan.py /usr/local/bin/zap-api-scan
 
 ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64/
 ENV PATH $JAVA_HOME/bin:/opt/zap/:$PATH
@@ -140,7 +175,8 @@ ENV ZAP_PATH /opt/zap/zap.sh
 ENV ZAPCLI_PATH /usr/local/bin/zap-cli
 ENV ZAPAPISCAN_PATH /usr/local/bin/zap-api-scan
 
-VOLUME [ "/attacks" ]
+VOLUME [ "/attacks","/output" ]
+
 
 ENTRYPOINT [ "/usr/local/bin/gauntlt" ]
 
