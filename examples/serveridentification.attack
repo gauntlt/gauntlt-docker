@@ -33,4 +33,3 @@ Scenario: Verify server does not send any software related information
   And the output should not contain "Passenger"
   And the output should not contain "Unicorn"
   And the output should not contain "unicorn"
-  
