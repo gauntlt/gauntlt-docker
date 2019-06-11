@@ -1,0 +1,15 @@
+@reallyslow
+
+Feature: Look for common vulnerabilities using owasp-zap
+
+Background:
+  Given the following profile:
+  | name  | value                   |
+  | url   | http://scanme.nmap.org  |
+
+Scenario: Using owasp-zap, look for common vulnerabilities via passive scan
+  When I launch a "generic" attack with:
+  """
+  zap-cli quick-scan -sc -o "-config api.disablekey=true --self-contained -config scanner.attackOnStart=true -config view.mode=attack -config connection.dnsTtlSuccessfulQueries=-1 -config api.addrs.addr.name=.* -config api.addrs.addr.regex=true" -s xss,sqli --spider --recursive <url>
+  """
+  Then the output should contain "Issues found: 0"

@@ -1,0 +1,12 @@
+      @reallyslow
+
+      Feature: Check an aplication against its API documentation
+
+      Scenario: Using zap-apiscan, load its API documentation and check all its endpoints with zap.
+        When I launch a "zap-api-scan" attack on a web service whose documentation is available in "http://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v2.0/json/petstore-minimal.json"
+        Then the output should contain "FAIL-NEW: 0"
+
+      Scenario: Using zap-apiscan, load its API documentation and check all its endpoints with zap, API is not running in documented host.
+        Given I wait for 30 seconds
+        When I launch a "zap-api-scan" attack on the host "petstore.swagger.io" whose documentation is available in "http://raw.githubusercontent.com/OAI/OpenAPI-Specification/master/examples/v2.0/json/petstore-minimal.json"
+        Then the output should contain "FAIL-NEW: 0"
