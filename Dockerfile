@@ -3,7 +3,7 @@ MAINTAINER james@gauntlt.org
 
 ARG ARACHNI_VERSION=arachni-1.5.1-0.5.12
 
-# Install Ruby and other OS stuff
+# Install OS stuff
 RUN apt-get update && \
     apt-get install -y build-essential \
       bzip2 \
@@ -22,10 +22,16 @@ RUN apt-get update && \
       python-pip \
       python2.7 \
       python2.7-dev \
-      ruby \
-      ruby-dev \
-      ruby-bundler && \
-    rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Ruby
+RUN apt-get update && \
+    apt-get install -y software-properties-common
+RUN apt-add-repository ppa:brightbox/ruby-ng
+RUN apt-get update && \
+    apt-get install -y \
+      ruby2.4 \
+      ruby2.4-dev
 
 # Install Gauntlt
 RUN gem install rake
