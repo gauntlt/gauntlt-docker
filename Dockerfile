@@ -1,4 +1,4 @@
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 MAINTAINER james@gauntlt.org
 
 ARG ARACHNI_VERSION=arachni-1.5.1-0.5.12
@@ -11,7 +11,7 @@ RUN apt-get update && \
       curl \
       gcc \
       git \
-      libcurl3 \
+      libcurl4 \
       libcurl4-openssl-dev \
       wget \
       zlib1g-dev \
