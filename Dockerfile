@@ -1,17 +1,18 @@
-FROM ubuntu:16.04
-MAINTAINER james@gauntlt.org
+FROM ubuntu:18.04
+LABEL maintainer=james@gauntlt.org
 
 ARG ARACHNI_VERSION=arachni-1.5.1-0.5.12
 
 # Install Ruby and other OS stuff
 RUN apt-get update && \
     apt-get install -y build-essential \
+      apt-utils \
       bzip2 \
       ca-certificates \
       curl \
       gcc \
       git \
-      libcurl3 \
+      libcurl4 \
       libcurl4-openssl-dev \
       wget \
       zlib1g-dev \
