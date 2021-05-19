@@ -22,15 +22,24 @@ RUN apt-get update && \
       python-pip \
       python2.7 \
       python2.7-dev \
-      ruby \
-      ruby-dev \
-      ruby-bundler && \
-    rm -rf /var/lib/apt/lists/*
+      #ruby \
+      #ruby-dev \
+      #ruby-bundler && \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN apt-get update
+RUN apt-get -y install software-properties-common
+RUN apt-add-repository ppa:brightbox/ruby-ng #added
+RUN apt-get update #added
+RUN apt-get install ruby2.7 ruby2.7-dev -y #added
+RUN ruby --version #added to test the ruby version
 
 # Install Gauntlt
+RUN ruby -v #test if ruby version is right
 RUN gem install rake
 RUN gem install ffi -v 1.9.18
-RUN gem install gauntlt --no-rdoc --no-ri
+RUN apt-get upgrade -y #added because you get a request to upgrade
+RUN gem install gauntlt --no-document
 
 # Install Attack tools
 WORKDIR /opt
@@ -77,6 +86,8 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # sslyze
+RUN python --version
+RUN pip --version
 RUN pip install sslyze==1.3.4
 ENV SSLYZE_PATH /usr/local/bin/sslyze
 
