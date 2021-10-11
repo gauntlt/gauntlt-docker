@@ -1,5 +1,5 @@
 # gauntlt-docker
-the docker for gauntlt
+The docker for gauntlt
 
 ## How it works
 This is not a traditional docker container. It is purposely made to get started with security testing with gauntlt. There are a couple things we do here that are a bit different.
