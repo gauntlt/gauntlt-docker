@@ -1,7 +1,9 @@
-FROM ubuntu:16.04
+FROM ubuntu:20.04
 MAINTAINER james@gauntlt.org
 
 ARG ARACHNI_VERSION=arachni-1.5.1-0.5.12
+ARG DEBIAN_FRONTEND=noninteractive
+
 
 # Install Ruby and other OS stuff
 RUN apt-get update && \
@@ -11,7 +13,7 @@ RUN apt-get update && \
       curl \
       gcc \
       git \
-      libcurl3 \
+      libcurl4 \
       libcurl4-openssl-dev \
       wget \
       zlib1g-dev \
@@ -19,9 +21,7 @@ RUN apt-get update && \
       libxml2-dev \
       libxslt1-dev \
       make \
-      python-pip \
-      python2.7 \
-      python2.7-dev \
+      python3-pip \
       ruby \
       ruby-dev \
       ruby-bundler && \
@@ -30,7 +30,7 @@ RUN apt-get update && \
 # Install Gauntlt
 RUN gem install rake
 RUN gem install ffi -v 1.9.18
-RUN gem install gauntlt --no-rdoc --no-ri
+RUN gem install gauntlt
 
 # Install Attack tools
 WORKDIR /opt
@@ -77,7 +77,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 # sslyze
-RUN pip install sslyze==1.3.4
+RUN pip install sslyze
 ENV SSLYZE_PATH /usr/local/bin/sslyze
 
 ENTRYPOINT [ "/usr/local/bin/gauntlt" ]
