@@ -20,6 +20,7 @@ RUN apt-get update && \
       libfontconfig \
       libxml2-dev \
       libxslt1-dev \
+      libffi-dev \
       make \
       python3-pip \
       ruby \
