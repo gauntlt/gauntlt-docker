@@ -25,8 +25,7 @@ RUN apt-get update && \
       python3-pip \
       ruby \
       ruby-dev \
-      ruby-bundler && \
-    rm -rf /var/lib/apt/lists/*
+      ruby-bundler
 
 # Install Gauntlt
 RUN gem install rake
@@ -43,10 +42,8 @@ RUN wget https://github.com/Arachni/arachni/releases/download/v1.5.1/${ARACHNI_V
     ln -s /usr/local/${ARACHNI_VERSION}/bin/* /usr/local/bin/
 
 # Nikto
-RUN apt-get update && \
-    apt-get install -y libtimedate-perl \
-      libnet-ssleay-perl && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get install -y libtimedate-perl \
+      libnet-ssleay-perl
 
 RUN git clone --depth=1 https://github.com/sullo/nikto.git && \
     cd nikto/program && \
@@ -73,12 +70,14 @@ RUN tar xvfz dirb222.tar.gz > /dev/null && \
 ENV DIRB_WORDLISTS /opt/dirb222/wordlists
 
 # nmap
-RUN apt-get update && \
-    apt-get install -y nmap && \
-    rm -rf /var/lib/apt/lists/*
+RUN apt-get install -y nmap
 
 # sslyze
 RUN pip install sslyze
 ENV SSLYZE_PATH /usr/local/bin/sslyze
+
+# cleanup downloaded debs & repo lists
+RUN apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 ENTRYPOINT [ "/usr/local/bin/gauntlt" ]
